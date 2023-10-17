@@ -1,0 +1,17 @@
+Sub sizer()
+Dim L As Long
+Dim opres As Presentation
+Dim tempPres As Presentation
+Set opres = ActivePresentation
+opres.SaveCopyAs (Environ("TEMP") & "\temppres.pptx")
+On Error Resume Next
+MkDir (Environ("USERPROFILE") & "\Desktop\sizer\")
+Set tempPres = Presentations.Open(FileName:=Environ("TEMP") & "\temppres.pptx", WithWindow:=False)
+For L = opres.Slides.Count To 1 Step -1
+opres.Slides(L).Copy
+tempPres.Slides.Paste
+Call tempPres.SaveAs(FileName:=Environ("USERPROFILE") & "\Desktop\sizer\slide" & L & ".pptx", EmbedTrueTypeFonts:=False)
+tempPres.Slides(1).Delete
+Next
+tempPres.Close
+End Sub
